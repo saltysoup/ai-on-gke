@@ -52,7 +52,16 @@ singleuser:
   image:
     name: jupyter/tensorflow-notebook
     tag: python-3.10
-  startTimeout: 700
+  startTimeout: 1000
+  extraAnnotations:
+    gke-gcsfuse/volumes: "true"
+  serviceAccountName: jup-sa
+  storage:
+    # homeMountPath: /home/jovyan
+    dynamic:
+      storageClass: filestore-storage-class
+      pvcNameTemplate: claim-{username}
+      volumeNameTemplate: volume-{username}
 # More info on kubespawner overrides: https://jupyterhub-kubespawner.readthedocs.io/en/latest/spawner.html#kubespawner.KubeSpawner
 #   profile example:
 #   - display_name: "Learning Data Science"
@@ -75,10 +84,28 @@ singleuser:
     - display_name: "Basic"
       description: "Creates CPU VMs as the compute for notebook execution."
       default: true
+    - display_name: "Test Persistant Volumes"
+      description: "Testing shared persistant volumes that uses GCSFuse"
+      kubespawner_override:
+        http_timeout: 1000
+        volume_mounts:
+        - name: gcs-fuse-csi-static
+          mountPath: /home/{username}
+        volumes:
+        - name: gcs-fuse-csi-static
+          persistentVolumeClaim:
+            claimName: gcs-fuse-csi-static-pvc
     - display_name: "GPU T4"
       description: "Creates GPU VMs (T4) as the compute for notebook execution"
       kubespawner_override:
         image: jupyter/tensorflow-notebook:python-3.10
+        # volume_mounts:
+        # - name: pvc-4f9bad7e-0a2c-4e9a-b7a4-ba211e0a7692
+        #   mountPath: /home/jovyan
+        # volumes:
+        # - name: pvc-4f9bad7e-0a2c-4e9a-b7a4-ba211e0a7692
+        #   persistentVolumeClaim:
+        #     claimName: gcs-fuse-csi-static-pvc
         extra_resource_limits:
           # number of gpus needed on the node
           nvidia.com/gpu: "2"
