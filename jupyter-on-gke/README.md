@@ -130,6 +130,8 @@ Currently there are 2 choices for storage:
 
 2. GCSFuse - `gcsfuse.csi.storage.gke.io` uses GCS Buckets and require users to pre-create buckets with name format `gcsfuse-{username}`
 
+3. Filestore - `filestore.csi.storage.gke.io` uses Filestore autoprovisioning to create persistent volumes. Uses `Retain` reclaim policy
+
 For more information about Persistent storage and the available options, visit [here](https://github.com/GoogleCloudPlatform/ai-on-gke/blob/main/jupyter-on-gke/storage.md)
 
 ## Running GPT-J-6B

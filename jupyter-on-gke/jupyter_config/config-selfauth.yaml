@@ -137,6 +137,10 @@ singleuser:
                       mountOptions: "uid=1000,gid=100,o=noexec,implicit-dirs,dir-mode=777,file-mode=777"
               node_selector:
                 iam.gke.io/gke-metadata-server-enabled: "true"
+            Filestore:
+              display_name: "Filestore"
+              kubespawner_override:
+                storage_class: "filestore-storage-class"
       default: true
     - display_name: "GPU T4"
       description: "Creates GPU VMs (T4) as the compute for notebook execution"
@@ -163,6 +167,10 @@ singleuser:
                       mountOptions: "uid=1000,gid=100,o=noexec,implicit-dirs,dir-mode=777,file-mode=777"
               node_selector:
                 iam.gke.io/gke-metadata-server-enabled: "true"
+            Filestore:
+              display_name: "Filestore"
+              kubespawner_override:
+                storage_class: "filestore-storage-class"
       kubespawner_override:
         image: jupyter/tensorflow-notebook:python-3.10
         extra_resource_limits:
@@ -196,6 +204,10 @@ singleuser:
                       mountOptions: "uid=1000,gid=100,o=noexec,implicit-dirs,dir-mode=777,file-mode=777"
               node_selector:
                 iam.gke.io/gke-metadata-server-enabled: "true"
+            Filestore:
+              display_name: "Filestore"
+              kubespawner_override:
+                storage_class: "filestore-storage-class"
       kubespawner_override:
         image: jupyter/tensorflow-notebook:python-3.10
         extra_resource_limits:

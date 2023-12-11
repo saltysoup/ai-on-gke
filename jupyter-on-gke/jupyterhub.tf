@@ -105,6 +105,10 @@ module "iap_auth" {
   ]
 }
 
+resource "kubectl_manifest" "filestore_storage_class" {
+  yaml_body          = templatefile("${path.module}/persistent_storage_deployments/filestore-storage-class.yaml", {})
+}
+
 module "workload_identity_service_account" {
   source = "./service_accounts_module"
 

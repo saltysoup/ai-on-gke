@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: filestore-storage-class
+provisioner: filestore.csi.storage.gke.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+parameters:
+  tier: standard
+  network: default
+volumeBindingMode: WaitForFirstConsumer
