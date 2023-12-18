@@ -38,7 +38,7 @@ spec:
         effect: "NoSchedule"
       containers:
       - name: finetuner
-        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo:v2 # nvidia ubuntu base image with torch 2.1.2+cu121
+        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo-l4:v1 # nvidia ubuntu base image with torch 2.1.2+cu121
         resources:
           requests:
             cpu: "90"
