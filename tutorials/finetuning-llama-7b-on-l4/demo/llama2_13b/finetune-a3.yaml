@@ -15,7 +15,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: finetune-h100v5
+  name: finetune-llama2-13bv1
   namespace: default
   labels:
     kueue.x-k8s.io/queue-name: dws-local-queue
@@ -31,7 +31,7 @@ spec:
         gke-gcsfuse/ephemeral-storage-limit: 30Gi
     spec:
       nodeSelector:
-        cloud.google.com/gke-nodepool: a3-dws-nodepool
+        cloud.google.com/gke-nodepool: a3-highgpu-8g
       tolerations:
       - key: "nvidia.com/gpu"
         operator: "Exists"
@@ -51,13 +51,13 @@ spec:
         volumeMounts:
         - name: gcs-fuse-csi-ephemeral
           mountPath: /gcs-mount
-      serviceAccountName: gke-ml-sa
+      serviceAccountName: ml-gke
       volumes:
       - name: gcs-fuse-csi-ephemeral
         csi:
           driver: gcsfuse.csi.storage.gke.io
           volumeAttributes:
-            bucketName: "gke-ml-gcs"
+            bucketName: "dws-demo"
             mountOptions: "implicit-dirs"
       restartPolicy: Never
       terminationGracePeriodSeconds: 60

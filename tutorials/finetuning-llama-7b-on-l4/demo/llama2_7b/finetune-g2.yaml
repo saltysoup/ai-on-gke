@@ -15,12 +15,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: finetune-a100v3
+  name: finetune-llama2-7bv1
   namespace: default
   labels:
-    kueue.x-k8s.io/queue-name: reserved-local-queue
+    kueue.x-k8s.io/queue-name: l4-local-queue
 spec:
-  backoffLimit: 2
+  completions: 1
+  suspend: true
   template:
     metadata:
       annotations:
@@ -30,33 +31,33 @@ spec:
         gke-gcsfuse/ephemeral-storage-limit: 30Gi
     spec:
       nodeSelector:
-        cloud.google.com/gke-nodepool: reserved-nodepool
+        cloud.google.com/gke-nodepool: g2-standard-96
       tolerations:
       - key: "nvidia.com/gpu"
         operator: "Exists"
         effect: "NoSchedule"
       containers:
       - name: finetuner
-        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo:v2
+        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo:v2 # nvidia ubuntu base image with torch 2.1.2+cu121
         resources:
           requests:
-            cpu: "95"
-            memory: "1300Gi"
+            cpu: "90"
+            memory: "375Gi"
             nvidia.com/gpu: 8
           limits:
-            cpu: "95"
-            memory: "1350Gi"
+            cpu: "96"
+            memory: "384Gi"
             nvidia.com/gpu: 8
         volumeMounts:
         - name: gcs-fuse-csi-ephemeral
           mountPath: /gcs-mount
-      serviceAccountName: gke-ml-sa
+      serviceAccountName: ml-gke
       volumes:
       - name: gcs-fuse-csi-ephemeral
         csi:
           driver: gcsfuse.csi.storage.gke.io
           volumeAttributes:
-            bucketName: "gke-ml-gcs"
+            bucketName: "dws-demo"
             mountOptions: "implicit-dirs"
       restartPolicy: Never
       terminationGracePeriodSeconds: 60

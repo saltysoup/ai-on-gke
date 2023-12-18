@@ -1,12 +1,12 @@
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: ResourceFlavor
 metadata:
-  name: "reserved"
+  name: "l4"
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: ClusterQueue
 metadata:
-  name: "reserved-cluster-queue"
+  name: "l4-cluster-queue"
 spec:
   namespaceSelector: {} 
   resourceGroups:
@@ -25,6 +25,6 @@ apiVersion: kueue.x-k8s.io/v1beta1
 kind: LocalQueue
 metadata:
   namespace: "default"
-  name: "reserved-local-queue"
+  name: "l4-local-queue"
 spec:
-  clusterQueue: "reserved-cluster-queue"
+  clusterQueue: "l4-cluster-queue"
