@@ -51,7 +51,7 @@ spec:
         volumeMounts:
         - name: gcs-fuse-csi-ephemeral
           mountPath: /gcs-mount
-      serviceAccountName: ml-gke
+      serviceAccountName: workload-identity-k8-sa
       volumes:
       - name: gcs-fuse-csi-ephemeral
         csi:
