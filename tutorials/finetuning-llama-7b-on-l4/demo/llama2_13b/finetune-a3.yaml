@@ -32,14 +32,21 @@ spec:
         gke-gcsfuse/ephemeral-storage-limit: 30Gi
     spec:
       nodeSelector:
-        cloud.google.com/gke-nodepool: a3-highgpu-8g
+        cloud.google.com/gke-accelerator: nvidia-h100-80gb
       tolerations:
       - key: "nvidia.com/gpu"
         operator: "Exists"
         effect: "NoSchedule"
       containers:
       - name: finetuner
-        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo-h100:v1 # nvidia ubuntu base image with torch 2.1.2+cu121
+        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo:v1 # nvidia ubuntu base image with torch 2.1.2+cu121
+        env:
+        - name: MODEL_NAME
+          value: "llama2-13b"
+        - name: PER_DEVICE_TRAIN_BATCH_SIZE
+          value: "3"
+        - name: GRADIENT_ACCUMULATION_STEPS
+          value: "3"
         resources:
           requests:
             nvidia.com/gpu: 8
