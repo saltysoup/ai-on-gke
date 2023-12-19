@@ -20,6 +20,7 @@ metadata:
   labels:
     kueue.x-k8s.io/queue-name: dws-local-queue
 spec:
+  parallelism: 1
   completions: 1
   suspend: true
   template:
@@ -41,12 +42,8 @@ spec:
         image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo-h100:v1 # nvidia ubuntu base image with torch 2.1.2+cu121
         resources:
           requests:
-            cpu: "205"
-            memory: "1860Gi"
             nvidia.com/gpu: 8
           limits:
-            cpu: "206"
-            memory: "1867Gi"
             nvidia.com/gpu: 8
         volumeMounts:
         - name: gcs-fuse-csi-ephemeral

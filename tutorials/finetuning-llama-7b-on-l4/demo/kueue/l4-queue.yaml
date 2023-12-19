@@ -12,7 +12,7 @@ spec:
   resourceGroups:
   - coveredResources: ["cpu", "memory", "nvidia.com/gpu"]
     flavors:
-    - name: "reserved"
+    - name: "l4"
       resources:
       - name: "cpu"
         nominalQuota: 10000  # Infinite quota.
