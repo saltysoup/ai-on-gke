@@ -2,6 +2,10 @@ apiVersion: kueue.x-k8s.io/v1beta1
 kind: ResourceFlavor
 metadata:
   name: "dws"
+spec:
+  nodelabels:
+    cloud.google.com/gke-nodepool: a3-highgpu-8g
+
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: AdmissionCheck

@@ -30,8 +30,6 @@ spec:
         gke-gcsfuse/memory-limit: 4Gi
         gke-gcsfuse/ephemeral-storage-limit: 30Gi
     spec:
-      nodeSelector:
-        cloud.google.com/gke-nodepool: a3-highgpu-8g
       tolerations:
       - key: "nvidia.com/gpu"
         operator: "Exists"
