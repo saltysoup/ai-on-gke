@@ -15,13 +15,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: finetune-llama2-7bv1
+  name: finetune-llama2-7b
   namespace: default
   labels:
     kueue.x-k8s.io/queue-name: l4-local-queue
 spec:
-  parallelism: 1
-  completions: 1
+  backoffLimit: 2
   suspend: true
   template:
     metadata:
@@ -32,14 +31,14 @@ spec:
         gke-gcsfuse/ephemeral-storage-limit: 30Gi
     spec:
       nodeSelector:
-        cloud.google.com/gke-accelerator: nvidia-l4
+        cloud.google.com/gke-nodepool: g2-standard-96
       tolerations:
       - key: "nvidia.com/gpu"
         operator: "Exists"
         effect: "NoSchedule"
       containers:
       - name: finetuner
-        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo:v1 # nvidia ubuntu base image with torch 2.1.2+cu121
+        image: us-central1-docker.pkg.dev/injae-sandbox-340804/llama2-dws-demo/llama2-dws-demo:v4 # nvidia ubuntu base image with torch 2.1.2+cu121
         env:
         - name: MODEL_NAME
           value: "llama2-7b"
