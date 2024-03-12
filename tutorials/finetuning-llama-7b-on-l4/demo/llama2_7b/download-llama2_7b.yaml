@@ -17,7 +17,11 @@ kind: Job
 metadata:
   name: model-loader-llama2-7b
   namespace: default
+  labels:
+    kueue.x-k8s.io/queue-name: l4-local-queue
 spec:
+  backoffLimit: 2
+  suspend: true
   template:
     metadata:
       annotations:
