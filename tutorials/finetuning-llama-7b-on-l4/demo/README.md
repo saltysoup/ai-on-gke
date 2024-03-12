@@ -44,7 +44,7 @@ kubectl apply -f llama2_7b/finetune-g2.yaml
 kubectl apply -f llama2_13b/download-llama2_13b.yaml
 ```
 
-1. Run the llama2 finetuning job on the DWS queue by applying the manifest
+8. Run the llama2 finetuning job on the DWS queue by applying the manifest
 ```shell
 kubectl apply -f llama2_13b/finetune-a3.yaml
 ```
