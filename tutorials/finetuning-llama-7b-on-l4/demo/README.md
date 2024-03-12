@@ -6,7 +6,7 @@
 
 1. Install Kueue in your cluster with necessary configuration to enable Provisioning Request integration:
 ```shell
-kubectl apply --server-side -f ./kueue-manifests.yaml
+kubectl apply --server-side -f kueue/kueue-manifests.yaml
 ```
 
 1. Verify update has applied to Kueue and is now ready to use:
@@ -21,21 +21,30 @@ pod/kueue-controller-manager-778b9f45db-2jbvn condition met
 
 1. Create a LocalQueue with a backing ClusterQueue to use DWS. The ClusterQueue uses a AdmissionCheck hook, which utilises the provisioning-request for obtaining and provisioning the desired GPUs. This will result in resizing of the target nodepool to run jobs.
 ```shell
-kubectl apply -f ./dws-queue.yaml
+kubectl apply -f kueue/dws-queue.yaml
 ```
 
 1. Create a second LocalQueue with a backing ClusterQueue. This uses the reserved nodepool without using DWS or admission check:
 ```shell
-kubectl apply -f ./reserved-queue.yaml
+kubectl apply -f kueue/l4-queue.yaml
+```
+
+1. Modify download-llama2_7b.yaml to include your HF token with access to Llama2 model repo and run the job
+```shell
+kubectl apply -f llama2_7b/download-llama2_7b.yaml
 ```
 
 1. Run the llama2 finetuning job on the reserved queue by applying the manifest
 ```shell
-kubectl apply -f ./finetuned-reserved.yaml
+kubectl apply -f llama2_7b/finetune-g2.yaml
+```
+
+1. Modify download-llama2_13b.yaml to include your HF token with access to Llama2 model repo and run the job
+```shell
+kubectl apply -f llama2_13b/download-llama2_13b.yaml
 ```
 
 1. Run the llama2 finetuning job on the DWS queue by applying the manifest
 ```shell
-kubectl apply -f ./finetuned-dws.yaml
+kubectl apply -f llama2_13b/finetune-a3.yaml
 ```
- 
